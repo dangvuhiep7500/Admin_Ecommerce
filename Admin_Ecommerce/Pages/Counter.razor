@@ -10,18 +10,48 @@
 @inject HttpClient Http
 @inject IAccessTokenProvider TokenProvider
 @inject NavigationManager NavigationManager
-<MudGrid>
-    <MudItem xs="12" sm="7">
+<MudGrid Class="mt-2">
+    <MudItem xs="8" Class="mt-2">
+        <MudText Typo="Typo.h6" Class="px-4">Add Product</MudText>
         <MudPaper Class="pa-4">
             <EditForm Model="@_product" OnValidSubmit="PostRequest">
                 <DataAnnotationsValidator />
-                <MudTextField @bind-Value="_product.title" For="@(() => _product.title)"T="string" Label="Product Title" Required="true" RequiredError="Product Title is required!" />
-                <MudTextField @bind-Value="_product.description" For="@(() =>_product.description)" T="string" Label="Descreption" Required="true" RequiredError="Descreption Title is required!" />
-                <MudNumericField HideSpinButtons="true" @bind-Value="_product.price"  Label="Price" Variant="Variant.Text" Min="0" />
-                <MudTextField @bind-Value="_product.image" For="@(() =>_product.image)" T="string" Label="Image" Required="true" RequiredError="Image is required!" />
-                <MudTextField @bind-Value="_product.categoryId" For="@(() => _product.categoryId)" T=" string" Label="CategoryID" Required="true" RequiredError="CategoryID is required!" />
+                <MudStack Row="true">
+                    <MudText Typo="Typo.body2" Class="px-2 w-25">1.General info</MudText>
+                    <div Style="width:25rem">
+                        <MudText Typo="Typo.body2">Title</MudText>
+                        <MudTextField  @bind-Value="_product.title" For="@(() => _product.title)" T="string" FullWidth="true" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="Product Title is required!" />
+                        <MudText Typo="Typo.body2" Class="mt-2">Description</MudText>
+                        <MudTextField  @bind-Value="_product.description" For="@(() =>_product.description)" Lines="3" T="string" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="Descreption Title is required!" />
+                    </div>
+                </MudStack>
+                <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+                <MudStack Row="true">
+                    <MudText Typo="Typo.body2" Class="px-2 w-25">2.Pricing</MudText>
+                    <div>
+                        <MudText Typo="Typo.body2">Price</MudText>
+                        <MudNumericField HideSpinButtons="true" @bind-Value="_product.price" Margin="Margin.Dense" Variant="Variant.Outlined"  />
+                    </div>
+                </MudStack>
+                <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+                <MudStack Row="true">
+                    <MudText Typo="Typo.body2" Class="px-2 w-25">3.Category</MudText>
+                    <div Style="width:25rem">
+                        <MudText Typo="Typo.body2">CategoryId</MudText>
+                        <MudTextField @bind-Value="_product.categoryId" For="@(() => _product.categoryId)" T=" string" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="CategoryID is required!" />
+                    </div>
+                </MudStack>
+                <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+                <MudStack Row="true">
+                    <MudText Typo="Typo.body2" Class="px-2 w-25">4.Media</MudText>
+                    <div Style="width:25rem">
+                        <MudText Typo="Typo.body2">Image</MudText>
+                        <MudTextField @bind-Value="_product.image" For="@(() =>_product.image)" T="string" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="Image is required!" />
+                    </div>
+                </MudStack>
+                <MudDivider DividerType="DividerType.Middle" Class="my-6" />
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-2">Register</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Save Product</MudButton>
                 </MudCardActions>
             </EditForm>
         </MudPaper>
@@ -30,7 +60,8 @@
 
 @code {
     private Products _product = new Products();
-    
+    string[] array = { "https://product.hstatic.net/1000026716/product/54mv_92471e86b1c8419d98674dd9e90c7d78.png", "https://product.hstatic.net/1000026716/product/54mv_92471e86b1c8419d98674dd9e90c7d78.png", "https://product.hstatic.net/1000026716/product/54mv_92471e86b1c8419d98674dd9e90c7d78.png", "https://product.hstatic.net/1000026716/product/54mv_92471e86b1c8419d98674dd9e90c7d78.png" };
+
     private async Task PostRequest()
     {
         {
@@ -40,7 +71,7 @@
             {
                 return;
             }
-
+            _product.imageDetail = array;
             await Http.PostAsJsonAsync(apiUrl, _product);
             NavigationManager.NavigateTo("/");
         }

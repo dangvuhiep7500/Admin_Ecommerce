@@ -12,7 +12,7 @@ public class Products
 
     [Required(ErrorMessage = "image is required")]
     public string? image { get; set; }
-    public List<string> imageDetail { get; set; }
+    public string[]? imageDetail { get; set; }
 
     [Required(ErrorMessage = "categoryId is required")]
     public string? categoryId { get; set; }
