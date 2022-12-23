@@ -1,23 +1,23 @@
 ﻿<MudStack Row="true">
     <MudPaper Width="300px" Class="py-3" Elevation="0">
         <MudList Clickable="true" @bind-SelectedItem="selectedItem" @bind-SelectedValue="selectedValue" Color="_color">
-<MudNavMenu>
-    <MudListItem Text="Home" Href="" Value="1" Icon="@Icons.Material.Filled.Home"></MudListItem>
-    <MudListItem Text="Products" Icon="@Icons.Filled.Store">
-         <NestedList>
-            <MudListItem Href="counter" Value="2">Add product</MudListItem>
-            <MudListItem Href="counter" Value="3">Product list</MudListItem>
-            <MudListItem Href="counter" Value="4">Categories</MudListItem>
-            <MudListItem Href="counter" Value="5">Brand</MudListItem>
-        </NestedList>
-    </MudListItem>
-    <MudListItem Href="counter" Value="6" Icon="@Icons.Filled.ShoppingCart">Orders</MudListItem>
-    <MudListItem Href="counter" Value="7" Icon="@Icons.Filled.Person">Customers</MudListItem>
-    <MudListItem Href="counter" Value="8" Icon="@Icons.Filled.Reviews">Reviews</MudListItem>
-    <MudListItem Href="counter" Value="9" Icon="@Icons.Filled.Sell">Seller</MudListItem>
-    <MudDivider Class="my-2" />
-                <MudListItem Href="counter" Value="10" Icon="@Icons.Filled.Settings">Setting</MudListItem>
-</MudNavMenu>
+            <MudNavMenu>
+                <MudListItem Text="Home" Href="" Value="1" Icon="@Icons.Material.Filled.Home"></MudListItem>
+                <MudListItem Text="Products" Icon="@Icons.Filled.Store">
+                    <NestedList>
+                        <MudListItem Href="create" Value="2">Add product</MudListItem>
+                        <MudListItem Href="create" Value="3">Product list</MudListItem>
+                        <MudListItem Href="create" Value="4">Categories</MudListItem>
+                        <MudListItem Href="create" Value="5">Brand</MudListItem>
+                    </NestedList>
+                </MudListItem>
+                <MudListItem Href="create" Value="6" Icon="@Icons.Filled.ShoppingCart">Orders</MudListItem>
+                <MudListItem Href="create" Value="7" Icon="@Icons.Filled.Person">Customers</MudListItem>
+                <MudListItem Href="create" Value="8" Icon="@Icons.Filled.Reviews">Reviews</MudListItem>
+                <MudListItem Href="create" Value="9" Icon="@Icons.Filled.Sell">Seller</MudListItem>
+                <MudDivider Class="my-2" />
+                <MudListItem Href="create" Value="10" Icon="@Icons.Filled.Settings">Setting</MudListItem>
+            </MudNavMenu>
         </MudList>
     </MudPaper>
 </MudStack>

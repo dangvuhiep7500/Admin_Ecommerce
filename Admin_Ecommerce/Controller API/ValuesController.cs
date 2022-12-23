@@ -19,4 +19,6 @@ public class Products
 
     [Required(ErrorMessage = "price is required")]
     public int price { get; set; }
+    public DateTime createdAt { get; set; }
+    public DateTime updatedAt { get; set; }
 }
