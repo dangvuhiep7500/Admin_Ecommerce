@@ -5,15 +5,15 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Elevation="0">
+    <MudAppBar Elevation="1" Color="Color.Info" >
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
-        <MudMenu>
+        <MudMenu >
             <ActivatorContent>
                 <MudAvatar Image="favicon.png" />
             </ActivatorContent>
         </MudMenu>
-        <MudMenu Label="Dang Nguyen" EndIcon="@Icons.Filled.KeyboardArrowDown">
+        <MudMenu Label="Dang Nguyen" Color="Color.Dark" EndIcon="@Icons.Filled.KeyboardArrowDown">
             <MudMenuItem>Profile</MudMenuItem>
             <MudMenuItem>Theme</MudMenuItem>
             <MudMenuItem>Usage</MudMenuItem>
