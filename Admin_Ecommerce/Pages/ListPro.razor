@@ -1,0 +1,106 @@
+﻿@page "/list-products"
+<MudStack Class="mt-2 justify-content-between" Row="true">
+    <MudText Typo="Typo.h6">Product List</MudText>
+    <MudButton Href="add-products" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Color="Color.Info">Create New</MudButton>
+</MudStack>
+<MudTable Items="@Product" Dense="true" Striped="true" Hover="true" Filter="new Func<Products,bool>(FilterFunc1)" Breakpoint="Breakpoint.Sm">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Product List</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Title</MudTh>
+        <MudTh>Price</MudTh>
+        <MudTh>CateID</MudTh>
+        <MudTh>Added</MudTh>
+        <MudTh>Action</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="title"><MudImage Src="@context.image" Width="70" Height="70" Alt="Swedish Farm House" Elevation="25" Class="rounded-lg ma-4" />@context.title </MudTd>
+        <MudTd DataLabel="price">@context.price.ToString("#,### VNĐ")</MudTd>
+        <MudTd DataLabel="categoryId">@context.categoryId</MudTd>
+        <MudTd DataLabel="Added">@context.createdAt</MudTd>
+        <MudTd DataLabel="Action">
+            <MudMenu Icon="@Icons.Material.Filled.MoreVert">
+                <MudMenuItem>View</MudMenuItem>
+                <MudMenuItem OnClick="@(() => EditItem(context._id))">Edit</MudMenuItem>
+                <MudMenuItem OnClick="@(async () => await DeleteItem(context._id))">Delete</MudMenuItem>
+            </MudMenu>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+@code {
+    private string searchString1 = "";
+    private string? exceptionMessage;
+    private const string Service = "http://localhost:5000/products";
+    private IEnumerable<Products>? Product = new List<Products>();
+    private Products editItem = new Products();
+    protected override async Task OnInitializedAsync() => await GetProductItems();
+    protected async Task GetProductItems()
+    {
+        Product = await httpClient.GetFromJsonAsync<List<Products>>(Service);
+    }
+    private async Task EditItem(string? id)
+    {
+        editItem = Product.Single(i => i._id == id);
+        var parameters = new DialogParameters();
+        parameters.Add("product", editItem);
+        var dialog = await _dialogService.ShowAsync<UpdateDialog>("Update Item Product", parameters);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            var res = await Http.PatchAsJsonAsync($"{Service}/update/{editItem._id}", editItem);
+            Console.WriteLine(res);
+            if (res.IsSuccessStatusCode == true)
+            {
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomLeft;
+                Snackbar.Add("ItemProduct Update Successful ", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomLeft;
+                Snackbar.Add($"Error {res.ReasonPhrase}", Severity.Error);
+            }
+            await GetProductItems();
+        }
+    }
+
+    private async Task DeleteItem(string? _id)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete? This process cannot be undone.");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+        var dialog = await _dialogService.ShowAsync<DeleteDialog>("Delete", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            var res = await Http.DeleteAsync($"{Service}/delete/{_id}");
+            Console.WriteLine(res);
+            if (res.IsSuccessStatusCode == true)
+            {
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomLeft;
+                Snackbar.Add("Item Product Deleted", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomLeft;
+                Snackbar.Add($"Error {res.ReasonPhrase}", Severity.Error);
+            }
+            await GetProductItems();
+        }
+
+    }
+    private bool FilterFunc1(Products element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(Products element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.title.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+}

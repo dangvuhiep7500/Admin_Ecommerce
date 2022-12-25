@@ -1,0 +1,32 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudText>@ContentText</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="@Color" Variant="Variant.Filled" OnClick="Submit">@ButtonText</MudButton>
+    </DialogActions>
+</MudDialog>
+<p>
+    @exceptionMessage
+</p>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public string? ContentText { get; set; }
+
+    [Parameter] public string? ButtonText { get; set; }
+
+    [Parameter] public Color Color { get; set; }
+
+    [Parameter] public Products server { get; set; } = new Products();
+
+    private string? exceptionMessage;
+    private void Submit()
+    {
+        //In a real world scenario this bool would probably be a service to delete the item from api/database
+     
+        MudDialog.Close(DialogResult.Ok(server._id));
+    }
+    void Cancel() => MudDialog.Cancel();
+}

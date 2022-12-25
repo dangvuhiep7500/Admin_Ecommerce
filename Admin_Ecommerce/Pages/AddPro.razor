@@ -1,4 +1,4 @@
-﻿@page "/create"
+﻿@page "/add-products"
 
 @using System.Text.RegularExpressions
 @using System.ComponentModel.DataAnnotations
@@ -16,7 +16,7 @@
             <EditForm Model="@_product" OnValidSubmit="PostRequest">
                 <DataAnnotationsValidator />
                 <MudStack Row="true">
-                    <MudText Typo="Typo.body2" Class="px-2 w-25">1.General info</MudText>
+                    <MudText Typo="Typo.body2" Class="px-2 w-25 fw-bold">1.General info</MudText>
                     <div Style="width:25rem">
                         <MudText Typo="Typo.body2">Title</MudText>
                         <MudTextField  @bind-Value="_product.title" For="@(() => _product.title)" T="string" FullWidth="true" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="Product Title is required!" />
@@ -26,7 +26,7 @@
                 </MudStack>
                 <MudDivider DividerType="DividerType.Middle" Class="my-6" />
                 <MudStack Row="true">
-                    <MudText Typo="Typo.body2" Class="px-2 w-25">2.Pricing</MudText>
+                <MudText Typo="Typo.body2" Class="px-2 w-25 fw-bold">2.Pricing</MudText>
                     <div>
                         <MudText Typo="Typo.body2">Price</MudText>
                         <MudNumericField HideSpinButtons="true" @bind-Value="_product.price" Margin="Margin.Dense" Variant="Variant.Outlined"  />
@@ -34,7 +34,7 @@
                 </MudStack>
                 <MudDivider DividerType="DividerType.Middle" Class="my-6" />
                 <MudStack Row="true">
-                    <MudText Typo="Typo.body2" Class="px-2 w-25">3.Category</MudText>
+                    <MudText Typo="Typo.body2" Class="px-2 w-25 fw-bold">3.Category</MudText>
                     <div Style="width:25rem">
                         <MudText Typo="Typo.body2">CategoryId</MudText>
                         <MudTextField @bind-Value="_product.categoryId" For="@(() => _product.categoryId)" T=" string" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="CategoryID is required!" />
@@ -42,7 +42,7 @@
                 </MudStack>
                 <MudDivider DividerType="DividerType.Middle" Class="my-6" />
                 <MudStack Row="true">
-                    <MudText Typo="Typo.body2" Class="px-2 w-25">4.Media</MudText>
+                <MudText Typo="Typo.body2" Class="px-2 w-25 fw-bold">4.Media</MudText>
                     <div Style="width:25rem">
                         <MudText Typo="Typo.body2">Image</MudText>
                         <MudTextField @bind-Value="_product.image" For="@(() =>_product.image)" T="string" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="Image is required!" />

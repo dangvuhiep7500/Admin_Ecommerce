@@ -1,0 +1,64 @@
+﻿<MudDialog>
+    <DialogContent>
+      @*  <MudTextField T="string" Label="Title" @bind-Value="product.title" />
+        <MudTextField T="string" Label="Description" @bind-Value="product.description" />
+        <MudTextField T="string" Label="Description" @bind-Value="product.categoryId" />
+        <MudTextField T="string" Label="Description" @bind-Value="product.image" />*@
+        <MudItem>
+                    <MudStack Row="true">
+                        <MudText Typo="Typo.body2" Class="px-2 w-25 fw-bold">1.General info</MudText>
+                        <div Style="width:25rem">
+                            <MudText Typo="Typo.body2">Title</MudText>
+                        <MudTextField @bind-Value="product.title" For="@(() => product.title)" T="string" FullWidth="true" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="Product Title is required!" />
+                            <MudText Typo="Typo.body2" Class="mt-2">Description</MudText>
+                            <MudTextField @bind-Value="product.description" For="@(() =>product.description)" Lines="3" T="string" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="Descreption Title is required!" />
+                        </div>
+                    </MudStack>
+                    <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+                    <MudStack Row="true">
+                        <MudText Typo="Typo.body2" Class="px-2 w-25 fw-bold">2.Pricing</MudText>
+                        <div>
+                            <MudText Typo="Typo.body2">Price</MudText>
+                            <MudNumericField HideSpinButtons="true" @bind-Value="product.price" Margin="Margin.Dense" Variant="Variant.Outlined" />
+                        </div>
+                    </MudStack>
+                    <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+                    <MudStack Row="true">
+                        <MudText Typo="Typo.body2" Class="px-2 w-25 fw-bold">3.Category</MudText>
+                        <div Style="width:25rem">
+                            <MudText Typo="Typo.body2">CategoryId</MudText>
+                            <MudTextField @bind-Value="product.categoryId" For="@(() => product.categoryId)" T=" string" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="CategoryID is required!" />
+                        </div>
+                    </MudStack>
+                    <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+                    <MudStack Row="true">
+                        <MudText Typo="Typo.body2" Class="px-2 w-25 fw-bold">4.Media</MudText>
+                        <div Style="width:25rem">
+                            <MudText Typo="Typo.body2">Image</MudText>
+                            <MudTextField @bind-Value="product.image" For="@(() =>product.image)" T="string" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="Image is required!" />
+                        </div>
+                    </MudStack>
+                    <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+        </MudItem>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="Submit">Save Product</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public Products product { get; set; } = new Products();
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok<Products>(product));
+    }
+}

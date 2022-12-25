@@ -1,28 +1,21 @@
 ﻿<MudStack Row="true">
-    <MudPaper Width="300px" Class="py-3" Elevation="0">
-        <MudList Clickable="true" @bind-SelectedItem="selectedItem" @bind-SelectedValue="selectedValue" Color="_color">
-            <MudNavMenu>
-                <MudListItem Text="Home" Href="" Value="1" Icon="@Icons.Material.Filled.Home"></MudListItem>
-                <MudListItem Text="Products" Icon="@Icons.Filled.Store">
-                    <NestedList>
-                        <MudListItem Href="create" Value="2">Add product</MudListItem>
-                        <MudListItem Href="create" Value="3">Product list</MudListItem>
-                        <MudListItem Href="create" Value="4">Categories</MudListItem>
-                        <MudListItem Href="create" Value="5">Brand</MudListItem>
-                    </NestedList>
-                </MudListItem>
-                <MudListItem Href="create" Value="6" Icon="@Icons.Filled.ShoppingCart">Orders</MudListItem>
-                <MudListItem Href="create" Value="7" Icon="@Icons.Filled.Person">Customers</MudListItem>
-                <MudListItem Href="create" Value="8" Icon="@Icons.Filled.Reviews">Reviews</MudListItem>
-                <MudListItem Href="create" Value="9" Icon="@Icons.Filled.Sell">Seller</MudListItem>
-                <MudDivider Class="my-2" />
-                <MudListItem Href="create" Value="10" Icon="@Icons.Filled.Settings">Setting</MudListItem>
-            </MudNavMenu>
-        </MudList>
+    <MudPaper Width="250px" lass="d-inline-flex py-3" Elevation="0">
+        <MudNavMenu Margin="Margin.Dense" Color="Color.Info" Class="mud-width-full">
+            <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home" Match="NavLinkMatch.All">Home</MudNavLink>
+            <MudNavGroup Title="Products" Icon="@Icons.Filled.Store">
+                <MudNavLink Href="add-products">Add product</MudNavLink>
+                <MudNavLink Href="list-products">Product list</MudNavLink>
+                <MudNavLink Href="cate-products">Categories</MudNavLink>
+            </MudNavGroup>
+            <MudNavLink Href="orders-products" Icon="@Icons.Filled.ShoppingCart">Orders</MudNavLink>
+            <MudNavLink Href="customers" Icon="@Icons.Filled.Person">Customers</MudNavLink>
+            <MudNavLink Href="reviews-products" Icon="@Icons.Filled.Reviews">Reviews</MudNavLink>
+            <MudNavLink Href="seller" Icon="@Icons.Filled.Sell">Seller</MudNavLink>
+            <MudDivider Class="my-2" />
+            <MudNavLink Href="settings" Icon="@Icons.Filled.Settings">Setting</MudNavLink>
+        </MudNavMenu>
     </MudPaper>
 </MudStack>
 @code {
-    MudListItem? selectedItem;
-    object selectedValue = 1;
-    Color _color = Color.Secondary;
+   
 }
