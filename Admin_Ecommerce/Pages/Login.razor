@@ -1,8 +1,9 @@
 ﻿@layout LoginLayout
 @page "/"
 @using System.Security.Claims
-@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager NavigationManager
+@inject ILocalStorageService LocalStorage
 <div class="container">
             <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
                 <div class="container">
@@ -22,35 +23,21 @@
                                         <p class="text-center small">Enter your username & password to login</p>
                                     </div>
 
-                                    <form class="row g-3 needs-validation" novalidate va>
-
-                                        <div class="col-12">
-                                            <label for="yourUsername" class="form-label">Username</label>
-                                            <div class="input-group has-validation">
-                                                <input type="text" name="username" class="form-control" id="yourUsername" required>
-                                                <div class="invalid-feedback">Please enter your username.</div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <label for="yourPassword" class="form-label">Password</label>
-                                            <input type="password" name="password" class="form-control" id="yourPassword" required>
-                                            <div class="invalid-feedback">Please enter your password!</div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
-                                                <label class="form-check-label" for="rememberMe">Remember me</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                    <a href="index"><button class="btn btn-primary w-100" type="submit">Login</button></a>
-                                        </div>
-@*                                        <div class="col-12">
-                                            <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
-                                        </div>*@
-                                    </form>
+                            <EditForm Model="@user" OnSubmit="HandleLogin" class="row g-3 needs-validation">
+                                <DataAnnotationsValidator />
+                                <div class="form-group">
+                                    <label>Username</label>
+                                    <InputText @bind-Value=user.email class="form-control" />
+                                    <ValidationMessage For="@(() => user.email)" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <InputText @bind-Value="user.password" type="password" class="form-control" />
+                                    <ValidationMessage For="@(() => user.password)" />
+                                </div>
+                                 <button class="btn btn-primary w-100" type="submit">Login</button>
+                                @*<NavLink href="account/register" class="btn btn-link">Register</NavLink>*@
+                                    </EditForm>
                                 </div>
                             </div>
                         </div>
@@ -59,47 +46,12 @@
             </section>
         </div>
 @code {
-    private User user;
-    public string LoginMesssage { get; set; }
-    ClaimsPrincipal claimsPrincipal;
-
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
-
-    protected async override Task OnInitializedAsync()
+    private User user = new User();
+    private async Task HandleLogin()
     {
-        user = new User();
-
-        claimsPrincipal = (await authenticationStateTask).User;
-
-        if (claimsPrincipal.Identity.IsAuthenticated)
-        {
-            NavigationManager.NavigateTo("/index");
-        }
-        {
-            user.EmailAddress = "philip.cramer@gmail.com";
-            user.Password = "philip.cramer";
-        }
-
+        await LocalStorage.SetItemAsStringAsync("username", user.email);
+        await AuthStateProvider.GetAuthenticationStateAsync();
+        NavigationManager.NavigateTo("/index");
     }
 
-    private async Task<bool> ValidateUser()
-    {
-        //assume that user is valid
-        //call an API
-
-        var returnedUser = await userService.LoginAsync(user);
-
-        if (returnedUser.EmailAddress != null)
-        {
-            await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(returnedUser);
-            NavigationManager.NavigateTo("/index");
-        }
-        else
-        {
-            LoginMesssage = "Invalid username or password";
-        }
-
-        return await Task.FromResult(true);
-    }
 }

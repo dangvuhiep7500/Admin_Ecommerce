@@ -1,41 +1,55 @@
 ﻿@inherits LayoutComponentBase
-
+@inject ILocalStorageService LocalStorage
+@inject ISyncLocalStorageService _LocalStorage
+@inject AuthenticationStateProvider AuthenStateProvider
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<MudLayout>
-    <MudAppBar Elevation="1" Color="Color.Info" >
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudSpacer />
-        <MudMenu >
-            <ActivatorContent>
-                <MudAvatar Image="favicon.png" />
-            </ActivatorContent>
-        </MudMenu>
-        <MudMenu Label="Dang Nguyen" Color="Color.Dark" EndIcon="@Icons.Filled.KeyboardArrowDown">
-            <MudMenuItem>Profile</MudMenuItem>
-            <MudMenuItem>Theme</MudMenuItem>
-            <MudMenuItem>Usage</MudMenuItem>
-            <MudMenuItem>Sign Out</MudMenuItem>
-        </MudMenu>
-    </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
-        <MudDrawerHeader >
-            <a href="/" class="logo d-flex align-items-center">
-                <img src="logo.png" alt="">
-                <MudText Class="px-2" Typo="Typo.subtitle2">Admin_Ecommerce</MudText>
-            </a>
-        </MudDrawerHeader>
-        <MudDivider Class="my-2" />
-        <NavMenu />
-    </MudDrawer>
-    <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
-            @Body
-        </MudContainer>
-    </MudMainContent>
-</MudLayout>
+<AuthorizeView>
+    <NotAuthorized>
+        <LoginLayout></LoginLayout>
+    </NotAuthorized>
+    <Authorized>
+        <MudLayout>
+            <MudAppBar Elevation="1" Color="Color.Info">
+                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+                <MudSpacer />
+                <MudMenu>
+                    <ActivatorContent>
+                        <MudAvatar Image="favicon.png" />
+                    </ActivatorContent>
+                </MudMenu> 
+                <MudMenu Color="Color.Dark" Class="px-2" FullWidth="true" >
+                    <ActivatorContent>
+                        <span class="d-none d-md-block dropdown-toggle ps-2">@_LocalStorage.GetItemAsString("username")</span>
+                    </ActivatorContent>
+                    <ChildContent>
+                    <MudMenuItem>Profile</MudMenuItem>
+                    <MudMenuItem>Theme</MudMenuItem>
+                    <MudMenuItem>Usage</MudMenuItem>
+                    <MudMenuItem OnClick="Logout">Sign Out</MudMenuItem>
+                    </ChildContent>
+                </MudMenu>
+            </MudAppBar>
+            <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
+                <MudDrawerHeader>
+                    <a href="/" class="logo d-flex align-items-center">
+                        <img src="logo.png" alt="">
+                        <MudText Class="px-2" Typo="Typo.subtitle2">Admin_Ecommerce</MudText>
+                    </a>
+                </MudDrawerHeader>
+                <MudDivider Class="my-2" />
+                <NavMenu />
+            </MudDrawer>
+            <MudMainContent>
+                <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+                    @Body
+                </MudContainer>
+            </MudMainContent>
+        </MudLayout>
+    </Authorized>
+</AuthorizeView>
 
 @code {
     bool _drawerOpen = true;
@@ -44,5 +58,10 @@
     {
         _drawerOpen = !_drawerOpen;
     }
- 
+    private async void Logout()
+    {
+        await LocalStorage.RemoveItemAsync("username");
+        await AuthenStateProvider.GetAuthenticationStateAsync();
+        NavigationManager.NavigateTo("/");
+    }
 }
