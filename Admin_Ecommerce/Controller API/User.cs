@@ -1,22 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿namespace Admin_Ecommerce.Controller_API
+{
     public class User
     {
-    public int _id { get; set; }
-    [Required]
-    public string? email { get; set; }
-    [Required]
-    public string? password { get; set; }
-    [Required]
-    public string? firstName { get; set; }
-    [Required]
-    public string? lastName { get; set; }
-    [Required]
-    public string? phoneNumber { get; set; }
-    public string? role { get; set; }
-    public bool RememberMe { get; set; }
-
-    public string? AccessToken { get; set; }
-    public string? RefreshToken { get; set; }
+        public string? _id { get; set; }
+        public string? firstName { get; set; }
+        public string? lastName { get; set; }
+        public string? phoneNumber { get; set; }
+        public string? Token { get; set; }
+        public bool IsDeleting { get; set; }
+        public bool Successful { get; set; }
+    }
 }
-

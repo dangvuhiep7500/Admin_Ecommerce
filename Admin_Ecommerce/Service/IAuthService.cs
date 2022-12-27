@@ -4,7 +4,13 @@ namespace Admin_Ecommerce.Service
 {
     public interface IAuthService
     {
-        Task<LoginResult> Login(User loginModel);
+        User user { get; }
+        Task Initialize();
+        Task<User> Login(LoginModel loginModel);
+        Task<User> GetById(string id);
+        Task<IList<User>> GetAll();
+        Task Update(string id, EditUser model);
+        Task Delete(string id);
         Task Logout();
     }
 }

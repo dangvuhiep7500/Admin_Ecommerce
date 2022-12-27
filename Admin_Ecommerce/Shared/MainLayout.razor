@@ -1,7 +1,9 @@
-﻿@inherits LayoutComponentBase
+﻿@using Admin_Ecommerce.Service;
+@inherits LayoutComponentBase
 @inject ILocalStorageService LocalStorage
 @inject ISyncLocalStorageService _LocalStorage
 @inject AuthenticationStateProvider AuthenStateProvider
+@inject IAuthService AuthService
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -22,7 +24,7 @@
                 </MudMenu> 
                 <MudMenu Color="Color.Dark" Class="px-2" FullWidth="true" >
                     <ActivatorContent>
-                        <span class="d-none d-md-block dropdown-toggle ps-2">@_LocalStorage.GetItemAsString("username")</span>
+                        <span class="d-none d-md-block dropdown-toggle ps-2">@AuthService.user.firstName</span>
                     </ActivatorContent>
                     <ChildContent>
                     <MudMenuItem>Profile</MudMenuItem>
@@ -52,6 +54,7 @@
 </AuthorizeView>
 
 @code {
+   
     bool _drawerOpen = true;
 
     void DrawerToggle()
@@ -60,8 +63,8 @@
     }
     private async void Logout()
     {
-        await LocalStorage.RemoveItemAsync("username");
-        await AuthenStateProvider.GetAuthenticationStateAsync();
+        await AuthService.Logout();
         NavigationManager.NavigateTo("/");
     }
 }
+
