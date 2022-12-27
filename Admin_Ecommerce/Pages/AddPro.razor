@@ -17,9 +17,9 @@
                     <MudText Typo="Typo.body2" Class="px-2 w-25 fw-bold">1.General info</MudText>
                     <div Style="width:25rem">
                         <MudText Typo="Typo.body2">Title</MudText>
-                        <MudTextField  @bind-Value="_product.title" For="@(() => _product.title)" T="string" FullWidth="true" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="Product Title is required!" />
+                        <MudTextField  @bind-Value="_product.title" For="@(() => _product.title)" T="string" FullWidth="true" Margin="Margin.Dense" Variant="Variant.Outlined" />
                         <MudText Typo="Typo.body2" Class="mt-2">Description</MudText>
-                        <MudTextField  @bind-Value="_product.description" For="@(() =>_product.description)" Lines="3" T="string" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="Descreption Title is required!" />
+                        <MudTextField  @bind-Value="_product.description" For="@(() =>_product.description)" Lines="3" T="string" Margin="Margin.Dense" Variant="Variant.Outlined"  />
                     </div>
                 </MudStack>
                 <MudDivider DividerType="DividerType.Middle" Class="my-6" />
@@ -35,7 +35,7 @@
                     <MudText Typo="Typo.body2" Class="px-2 w-25 fw-bold">3.Category</MudText>
                     <div Style="width:25rem">
                         <MudText Typo="Typo.body2">CategoryId</MudText>
-                        <MudTextField @bind-Value="_product.categoryId" For="@(() => _product.categoryId)" T=" string" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="CategoryID is required!" />
+                        <MudTextField @bind-Value="_product.categoryId" For="@(() => _product.categoryId)" T=" string" Margin="Margin.Dense" Variant="Variant.Outlined" />
                     </div>
                 </MudStack>
                 <MudDivider DividerType="DividerType.Middle" Class="my-6" />
@@ -43,7 +43,7 @@
                 <MudText Typo="Typo.body2" Class="px-2 w-25 fw-bold">4.Media</MudText>
                     <div Style="width:25rem">
                         <MudText Typo="Typo.body2">Image</MudText>
-                        <MudTextField @bind-Value="_product.image" For="@(() =>_product.image)" T="string" Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="Image is required!" />
+                        <MudTextField @bind-Value="_product.image" For="@(() =>_product.image)" T="string" Margin="Margin.Dense" Variant="Variant.Outlined" />
                     </div>
                 </MudStack>
                 <MudDivider DividerType="DividerType.Middle" Class="my-6" />
@@ -69,7 +69,7 @@
             }
             _product.imageDetail = array;
             await Http.PostAsJsonAsync(apiUrl, _product);
-            NavigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/list-products");
         }
     }
 }

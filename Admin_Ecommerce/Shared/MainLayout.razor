@@ -10,7 +10,7 @@
 
 <AuthorizeView>
     <NotAuthorized>
-        <LoginLayout></LoginLayout>
+        <span>You're not authorized, buddy.</span>
     </NotAuthorized>
     <Authorized>
         <MudLayout>
@@ -24,7 +24,7 @@
                 </MudMenu> 
                 <MudMenu Color="Color.Dark" Class="px-2" FullWidth="true" >
                     <ActivatorContent>
-                        <span class="d-none d-md-block dropdown-toggle ps-2">@AuthService.user.firstName</span>
+                        <span class="d-none d-md-block dropdown-toggle ps-2">@context.User.Identity?.Name</span>
                     </ActivatorContent>
                     <ChildContent>
                     <MudMenuItem>Profile</MudMenuItem>

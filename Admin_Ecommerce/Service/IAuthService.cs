@@ -6,7 +6,7 @@ namespace Admin_Ecommerce.Service
     {
         User user { get; }
         Task Initialize();
-        Task<User> Login(LoginModel loginModel);
+        Task<LoginResult> Login(LoginModel loginModel);
         Task<User> GetById(string id);
         Task<IList<User>> GetAll();
         Task Update(string id, EditUser model);
