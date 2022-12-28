@@ -8,46 +8,49 @@
 @inject NavigationManager NavigationManager
 @inject ILocalStorageService LocalStorage
 @inject IAuthService AuthService
+
 @if (ShowAuthError)
 {
-    <div class="alert alert-danger" role="alert">
-        <p>@Error</p>
-    </div>
-}
+     Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomLeft;
+     Snackbar.Add($"{Error}", Severity.Error);
+    
+} 
 <div class="container">
-    <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+    <section class="section register d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center ">
                     <div class="d-flex justify-content-center py-4">
                         <a href="#" class="logo d-flex align-items-center w-auto">
                             <img src="logo.png" alt="">
                             <span class="d-none d-lg-block">NiceAdmin</span>
                         </a>
                     </div>
-                    <!-- End Logo -->
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="pt-4 pb-2">
                                 <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
                                 <p class="text-center small">Enter your username & password to login</p>
                             </div>
-                            <EditForm Model="@user" OnSubmit="HandleLogin" class="row g-3 needs-validation">
+                            <EditForm Model="@user" OnValidSubmit="HandleLogin" class="row g-3 needs-validation">
                                 <DataAnnotationsValidator />
-                                <div>
-                                    <label>Username</label>
-                                    <MudTextField @bind-Value="user.email" For="@(() => user.email)" T="string" Margin="Margin.Dense" Variant="Variant.Outlined" />
-                                    @*<InputText @bind-Value="user.email" class="form-control"/>*@
+                                <div class="col-12">
+                                    <label class="form-label">Username</label>
+                                    <MudTextField Class="form-control" @bind-Value="user.email" For="@(() => user.email)" T="string" Margin="Margin.Dense" Variant="Variant.Outlined" />
                                 </div>
-                                <div>
-                                    <label>Password</label>
-                                    <MudTextField @bind-Value="user.password" For="@(() => user.password)" InputType="InputType.Password" Margin="Margin.Dense" Variant="Variant.Outlined" />
-                                    @*<InputText @bind-Value="user.password" type="password" class="form-control" />*@
+                                <div class="col-12">
+                                    <label class="form-label">Password</label>
+                                    <MudTextField Class="form-control" @bind-Value="user.password" For="@(() => user.password)" InputType="InputType.Password" Margin="Margin.Dense" Variant="Variant.Outlined" />
                                 </div>
-                                <MudCardActions>
-                                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Info" Class="btn w-100 ml-auto">Login</MudButton>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
+                                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                                    </div>
+                                </div>
+                                <MudCardActions Class="col-12">
+                                    <button class="btn btn-primary w-100" type="submit">Login</button>
                                 </MudCardActions>
-                                @*<button class="btn btn-primary w-100" type="submit">Login</button>*@
                             </EditForm>
                         </div>
                     </div>
@@ -58,7 +61,6 @@
 </div>
 @code {
     private LoginModel user = new LoginModel();
-    private User user1 = new User();
     public bool ShowAuthError { get; set; }
     public string? Error { get; set; }
     private async Task HandleLogin()
@@ -74,7 +76,7 @@
         {
             NavigationManager.NavigateTo("/index");
         }
+
     }
 
 }
-

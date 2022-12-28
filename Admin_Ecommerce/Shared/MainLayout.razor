@@ -21,16 +21,16 @@
                     <ActivatorContent>
                         <MudAvatar Image="favicon.png" />
                     </ActivatorContent>
-                </MudMenu> 
-                <MudMenu Color="Color.Dark" Class="px-2" FullWidth="true" >
+                </MudMenu>
+                <MudMenu Color="Color.Dark" Class="px-2" FullWidth="true">
                     <ActivatorContent>
                         <span class="d-none d-md-block dropdown-toggle ps-2">@context.User.Identity?.Name</span>
                     </ActivatorContent>
                     <ChildContent>
-                    <MudMenuItem>Profile</MudMenuItem>
-                    <MudMenuItem>Theme</MudMenuItem>
-                    <MudMenuItem>Usage</MudMenuItem>
-                    <MudMenuItem OnClick="Logout">Sign Out</MudMenuItem>
+                        <MudMenuItem>Profile</MudMenuItem>
+                        <MudMenuItem>Theme</MudMenuItem>
+                        <MudMenuItem>Usage</MudMenuItem>
+                        <MudMenuItem OnClick="Logout">Sign Out</MudMenuItem>
                     </ChildContent>
                 </MudMenu>
             </MudAppBar>
@@ -54,7 +54,7 @@
 </AuthorizeView>
 
 @code {
-   
+
     bool _drawerOpen = true;
 
     void DrawerToggle()
