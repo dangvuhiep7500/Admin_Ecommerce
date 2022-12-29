@@ -1,49 +1,21 @@
-﻿@using Admin_Ecommerce.Service;
+﻿@using Admin_Ecommerce.Controller_API;
+@using Admin_Ecommerce.Service;
 @inherits LayoutComponentBase
-@inject ILocalStorageService LocalStorage
-@inject ISyncLocalStorageService _LocalStorage
-@inject AuthenticationStateProvider AuthenStateProvider
-@inject IAuthService AuthService
+
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <AuthorizeView>
     <NotAuthorized>
-        <span>You're not authorized, buddy.</span>
+        @if (context.User.Identity?.IsAuthenticated != true)
+        {
+            NavigationManager.NavigateTo("/not-auth");
+        }
     </NotAuthorized>
     <Authorized>
         <MudLayout>
-            <MudAppBar Elevation="1" Color="Color.Info">
-                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-                <MudSpacer />
-                <MudMenu>
-                    <ActivatorContent>
-                        <MudAvatar Image="favicon.png" />
-                    </ActivatorContent>
-                </MudMenu>
-                <MudMenu Color="Color.Dark" Class="px-2" FullWidth="true">
-                    <ActivatorContent>
-                        <span class="d-none d-md-block dropdown-toggle ps-2">@context.User.Identity?.Name</span>
-                    </ActivatorContent>
-                    <ChildContent>
-                        <MudMenuItem>Profile</MudMenuItem>
-                        <MudMenuItem>Theme</MudMenuItem>
-                        <MudMenuItem>Usage</MudMenuItem>
-                        <MudMenuItem OnClick="Logout">Sign Out</MudMenuItem>
-                    </ChildContent>
-                </MudMenu>
-            </MudAppBar>
-            <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
-                <MudDrawerHeader>
-                    <a href="/" class="logo d-flex align-items-center">
-                        <img src="logo.png" alt="">
-                        <MudText Class="px-2" Typo="Typo.subtitle2">Admin_Ecommerce</MudText>
-                    </a>
-                </MudDrawerHeader>
-                <MudDivider Class="my-2" />
-                <NavMenu />
-            </MudDrawer>
+            <AppBar />
             <MudMainContent>
                 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
                     @Body
@@ -52,19 +24,8 @@
         </MudLayout>
     </Authorized>
 </AuthorizeView>
-
 @code {
 
-    bool _drawerOpen = true;
-
-    void DrawerToggle()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
-    private async void Logout()
-    {
-        await AuthService.Logout();
-        NavigationManager.NavigateTo("/");
-    }
 }
+
 

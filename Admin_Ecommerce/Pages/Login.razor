@@ -63,6 +63,10 @@
     private LoginModel user = new LoginModel();
     public bool ShowAuthError { get; set; }
     public string? Error { get; set; }
+    protected override void OnInitialized()
+    {
+        NavigationManager.NavigateTo("/");
+    }
     private async Task HandleLogin()
     {
         ShowAuthError = false;
